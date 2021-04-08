@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cheryl115.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}};
+  </script>
+<meta name="description" content="ML Homework 1 Perceptron題目  使用具有特定參數m和b的線性方程式 y &#x3D; mx + b 來生成30個2D數據樣本。將右側的15個數據樣本標記為正，左側的15個數據樣本標記為負。並且沒有樣本在線上。  用您自己的初始w實現Perceptron Learning Algorithm。 討論PLA是否停止或它暫停了多少次迭代。生成三次數據樣本併計算平均值PLA暫停時的迭代次數。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ML Homework 1 Perceptron">
+<meta property="og:url" content="http://cheryl115.github.io/2021/04/01/ML-Homework-1-Perceptron/index.html">
+<meta property="og:site_name" content="學習coding的浣熊">
+<meta property="og:description" content="ML Homework 1 Perceptron題目  使用具有特定參數m和b的線性方程式 y &#x3D; mx + b 來生成30個2D數據樣本。將右側的15個數據樣本標記為正，左側的15個數據樣本標記為負。並且沒有樣本在線上。  用您自己的初始w實現Perceptron Learning Algorithm。 討論PLA是否停止或它暫停了多少次迭代。生成三次數據樣本併計算平均值PLA暫停時的迭代次數。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/1tyoThM.png">
+<meta property="og:image" content="https://i.imgur.com/K70DEc3.jpg">
+<meta property="og:image" content="https://i.imgur.com/MxjCdRZ.jpg">
+<meta property="og:image" content="https://i.imgur.com/DElo6Pk.jpg">
+<meta property="og:image" content="https://i.imgur.com/GIHqPiW.jpg">
+<meta property="og:image" content="https://i.imgur.com/kMMgNSs.png">
+<meta property="og:image" content="https://i.imgur.com/bfDv0sL.jpg">
+<meta property="og:image" content="https://i.imgur.com/EBnSQso.png">
+<meta property="og:image" content="https://i.imgur.com/9BnbjJi.png">
+<meta property="article:published_time" content="2021-03-31T16:33:01.000Z">
+<meta property="article:modified_time" content="2021-04-01T18:10:50.522Z">
+<meta property="article:author" content="Cheryl the racoon">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/1tyoThM.png">
+
+
+<link rel="canonical" href="http://cheryl115.github.io/2021/04/01/ML-Homework-1-Perceptron/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+<title>ML Homework 1 Perceptron | 學習coding的浣熊</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">學習coding的浣熊</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ML-Homework-1-Perceptron"><span class="nav-number">1.</span> <span class="nav-text">ML Homework 1 Perceptron</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%8C%E7%9B%AE"><span class="nav-number">1.0.1.</span> <span class="nav-text">題目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Execution-description"><span class="nav-number">1.0.2.</span> <span class="nav-text">Execution description</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E6%A5%AD%E7%92%B0%E5%A2%83"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">作業環境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8C%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">執行方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experimental-results"><span class="nav-number">1.0.3.</span> <span class="nav-text">Experimental results</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.0.4.</span> <span class="nav-text">Conclusion</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-is-Perceptron-Learning-Algorithm"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">What is Perceptron Learning Algorithm?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#What-is-Pocket-Algorithm"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">What is Pocket Algorithm?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion"><span class="nav-number">1.0.5.</span> <span class="nav-text">Discussion</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Cheryl the racoon</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Cheryl115" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Cheryl115" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://cheryl115.github.io/2021/04/01/ML-Homework-1-Perceptron/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cheryl the racoon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="學習coding的浣熊">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ML Homework 1 Perceptron
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-04-01 00:33:01" itemprop="dateCreated datePublished" datetime="2021-04-01T00:33:01+08:00">2021-04-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新於</span>
+        <time title="修改時間：2021-04-02 02:10:50" itemprop="dateModified" datetime="2021-04-02T02:10:50+08:00">2021-04-02</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="ML-Homework-1-Perceptron"><a href="#ML-Homework-1-Perceptron" class="headerlink" title="ML Homework 1 Perceptron"></a>ML Homework 1 Perceptron</h1><h3 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h3><p><img src="https://i.imgur.com/1tyoThM.png" alt="題目"></p>
+<ol>
+<li><p>使用具有特定參數m和b的線性方程式 y = mx + b 來生成30個2D數據樣本。將右側的15個數據樣本標記為正，左側的15個數據樣本標記為負。並且沒有樣本在線上。</p>
+</li>
+<li><p>用您自己的初始w實現Perceptron Learning Algorithm。 討論PLA是否停止或它暫停了多少次迭代。生成三次數據樣本併計算平均值PLA暫停時的迭代次數。</p>
+</li>
+<li><p>在問題1中，生成1000個正樣本和1000個負樣本。 利用Pocket Algorithm，並將執行時間與同一數據集上的PLA進行比較。</p>
+</li>
+</ol>
+<span id="more"></span>
+<h3 id="Execution-description"><a href="#Execution-description" class="headerlink" title="Execution description"></a>Execution description</h3><h4 id="作業環境"><a href="#作業環境" class="headerlink" title="作業環境"></a>作業環境</h4><ul>
+<li><p>作業系統: Windows 10</p>
+</li>
+<li><p>Requirments</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python&#x3D;&#x3D;3.6.5</span><br><span class="line">numpy&#x3D;&#x3D;1.14.3</span><br><span class="line">matplotlib&#x3D;&#x3D;2.2.2</span><br></pre></td></tr></table></figure>
+<h4 id="執行方法"><a href="#執行方法" class="headerlink" title="執行方法"></a>執行方法</h4></li>
+<li>在作業資料夾中打開命令提示字元</li>
+<li>輸入以下指令即可執行  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python hw1.py</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Experimental-results"><a href="#Experimental-results" class="headerlink" title="Experimental results"></a>Experimental results</h3><ol>
+<li>畫出線性方程 y = mx + b (m=1, b=2)，以及30個標記點 (<span style='color:blue'>藍色</span>為正，<span style='color:red'>紅色</span>為負)<br> <img src="https://i.imgur.com/K70DEc3.jpg" alt=""></li>
+</ol>
+<ol>
+<li><p>自訂初始 w([1,1])，實作PLA，並重複三次計算每次執行PLA的迭代次數以及三次平均次數</p>
+<ul>
+<li><p>第一次: 213次<br>  <img src="https://i.imgur.com/MxjCdRZ.jpg" alt=""></p>
+<blockquote>
+<p>藍線為 y = mx + b (m=1, b=2)</p>
+<p>紅線為PLA最終答案</p>
+</blockquote>
+</li>
+<li><p>第二次: 107次<br>  <img src="https://i.imgur.com/DElo6Pk.jpg" alt=""></p>
+<blockquote>
+<p>藍線為 y = mx + b (m=1, b=2)</p>
+<p>紅線為PLA最終答案</p>
+</blockquote>
+</li>
+<li><p>第三次: 70次<br>  <img src="https://i.imgur.com/GIHqPiW.jpg" alt=""></p>
+<blockquote>
+<p>藍線為 y = mx + b (m=1, b=2)</p>
+<p>紅線為PLA最終答案</p>
+</blockquote>
+</li>
+<li><p>迭代平均次數: 130次</p>
+<p>  <img src="https://i.imgur.com/kMMgNSs.png" alt=""></p>
+</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li><p>生成1000個正樣本和1000個負樣本。 自訂初始 w([1,1])，實作Pocket Algorithm，並將執行時間與同一數據集上的PLA進行比較。</p>
+<ul>
+<li><p>結果圖片<br>  <img src="https://i.imgur.com/bfDv0sL.jpg" alt=""></p>
+<p>  因為看不清楚有三條線所以我們把線的部分放大<br>  <img src="https://i.imgur.com/EBnSQso.png" alt=""></p>
+<blockquote>
+<p>藍線為 y = mx + b (m=1, b=2)</p>
+<p>紅線為PLA最終答案</p>
+<p>灰線為Pocket Algorithm答案</p>
+</blockquote>
+</li>
+<li><p>執行時間</p>
+<p>  <img src="https://i.imgur.com/9BnbjJi.png" alt=""></p>
+<ul>
+<li>PLA: 0.0625 seconds</li>
+<li>Pocket Algorithm: 1.3750 seconds</li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/Cheryl115/ML-hw1">程式碼</a>在這裡</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><h4 id="What-is-Perceptron-Learning-Algorithm"><a href="#What-is-Perceptron-Learning-Algorithm" class="headerlink" title="What is Perceptron Learning Algorithm?"></a>What is Perceptron Learning Algorithm?</h4><ul>
+<li><p>用在可以完全二分的問題中，經由不斷的修正錯誤，求得一個<span style='color:#FF8888'>完美</span>的分類器。</p>
+</li>
+<li><p>如何判斷錯誤?</p>
+<ul>
+<li>將${w_t}$ 與 ${x_{n(t)}}$做內積，看是不是我們要的正負號。<script type="math/tex; mode=display">sign({w\_t^T}{x\_{n(t)}}) \neq {y\_{n(t)}}</script></li>
+</ul>
+</li>
+<li><p>如何修正錯誤?</p>
+<ul>
+<li><p>根據正負耗去調整w，如果是正的，那就把w轉的靠近x一點，如果是負的，就把w轉的遠離x一點。</p>
+<script type="math/tex; mode=display">{w\_{t+1}}\space\leftarrow\space{w\_t}+{y\_{n(t)}}{x\_{n(t)}}</script></li>
+</ul>
+</li>
+<li><p>不斷重複上述兩步驟直到沒有錯誤</p>
+</li>
+</ul>
+<h4 id="What-is-Pocket-Algorithm"><a href="#What-is-Pocket-Algorithm" class="headerlink" title="What is Pocket Algorithm?"></a>What is Pocket Algorithm?</h4><ul>
+<li>為PLA的變形，目的是找出一個<span style='color:#FF8888'>相對好</span>的分類器</li>
+<li>在每次進行修正的時候都把新的${w_t}$跟舊的${w}$做比較，如果${w_t}$的誤差值較小，則更新目前口袋中的${w}$值，經過不斷的迭代，${w}$中的值必定可以找到<span style='color:#FF8888'>當下最好</span>的分類器</li>
+</ul>
+<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><ul>
+<li><p>為什麼PLA有時候會無法停止？</p>
+<ul>
+<li>因為資料樣本不是線性可分</li>
+</ul>
+</li>
+<li><p>為什麼使用Pocket Algorithm的時候，會出現沒被準確分類的樣本？</p>
+<ul>
+<li>因為Pocket Algorithm的目的是找出相對好的w，為了避免遇到不是線性可分的資料，有限制迭代的上限次數，所以有時候會出現沒被準確分類的樣本。</li>
+</ul>
+</li>
+<li><p>為什麼Pocket Algorithm常常比PLA慢?</p>
+<ul>
+<li>因為Pocket Algorithm每次調整w時，都會重新計算一次w的正確率，所以通常會比較久</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheryl the racoon</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

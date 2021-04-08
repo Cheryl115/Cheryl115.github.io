@@ -24,30 +24,27 @@
     var CONFIG = {"hostname":"cheryl115.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}};
   </script>
 <meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://cheryl115.github.io/categories/index.html">
+<meta property="og:title" content="學習coding的浣熊">
+<meta property="og:url" content="http://cheryl115.github.io/index.html">
 <meta property="og:site_name" content="學習coding的浣熊">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-03-22T14:20:08.000Z">
-<meta property="article:modified_time" content="2021-03-22T14:36:48.386Z">
 <meta property="article:author" content="Cheryl the racoon">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://cheryl115.github.io/categories/">
+<link rel="canonical" href="http://cheryl115.github.io/">
 
 
 <script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'zh-TW'
   };
 </script>
-<title>categories | 學習coding的浣熊
-</title>
+<title>學習coding的浣熊</title>
   
 
 
@@ -215,43 +212,93 @@
 </noscript>
 
 
-    <div class="main-inner page posts-expand">
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
   
   
 
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://cheryl115.github.io/2021/04/01/ML-Homework-1-Perceptron/">
 
-    
-    
-    
-    <div class="post-block" lang="zh-TW"><header class="post-header">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Cheryl the racoon">
+      <meta itemprop="description" content="">
+    </span>
 
-<h1 class="post-title" itemprop="name headline">categories
-</h1>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="學習coding的浣熊">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/01/ML-Homework-1-Perceptron/" class="post-title-link" itemprop="url">ML Homework 1 Perceptron</a>
+        </h2>
 
-<div class="post-meta-container">
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-04-01 00:33:01" itemprop="dateCreated datePublished" datetime="2021-04-01T00:33:01+08:00">2021-04-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新於</span>
+        <time title="修改時間：2021-04-02 02:10:50" itemprop="dateModified" datetime="2021-04-02T02:10:50+08:00">2021-04-02</time>
+      </span>
+
+  
 </div>
 
-</header>
+        </div>
+      </header>
 
-      
-      
-      <div class="post-body"><div class="category-all-page">
-  <div class="category-all-title">
-    沒有分類
-  </div>
-  <div class="category-all">
     
-  </div>
-</div>
-
-      </div>
-      
-      
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ML-Homework-1-Perceptron"><a href="#ML-Homework-1-Perceptron" class="headerlink" title="ML Homework 1 Perceptron"></a>ML Homework 1 Perceptron</h1><h3 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h3><p><img src="https://i.imgur.com/1tyoThM.png" alt="題目"></p>
+<ol>
+<li><p>使用具有特定參數m和b的線性方程式 y = mx + b 來生成30個2D數據樣本。將右側的15個數據樣本標記為正，左側的15個數據樣本標記為負。並且沒有樣本在線上。</p>
+</li>
+<li><p>用您自己的初始w實現Perceptron Learning Algorithm。 討論PLA是否停止或它暫停了多少次迭代。生成三次數據樣本併計算平均值PLA暫停時的迭代次數。</p>
+</li>
+<li><p>在問題1中，生成1000個正樣本和1000個負樣本。 利用Pocket Algorithm，並將執行時間與同一數據集上的PLA進行比較。</p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/01/ML-Homework-1-Perceptron/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
     
     
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
 
 
@@ -313,7 +360,38 @@
 
 
 
-  
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
 
 
 </body>
